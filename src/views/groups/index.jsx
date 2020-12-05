@@ -5,16 +5,22 @@ import { throttle } from 'lodash';
 //importing Material UI components
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from '@material-ui/icons/Search';
+
+import useStyles from './styles';
 
 //Creates a new Flickr REST API client
 //for more details see https://www.npmjs.com/package/flickr-sdk#new-flickrauth
 const flickr = new Flickr(process.env.REACT_APP_FLICKR_API_KEY);
 
 export default function Groups() {
+	const classes = useStyles();
 	const [value, setValue] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState([]);
 
+	//function to prevent making unnecessary calls when the user is typing a query in the search box
 	const throttleFunction = useMemo(
 		() =>
 			throttle(async newInputValue => {
@@ -22,10 +28,10 @@ export default function Groups() {
 					text: newInputValue,
 					per_page: 10,
 				});
-				const groupNames = response.body.groups.group.map(item => item.name);
 
+				const groupNames = response.body.groups.group.map(item => item.name);
 				setOptions(groupNames);
-			}, 1000),
+			}, 500),
 		[]
 	);
 
@@ -57,8 +63,37 @@ export default function Groups() {
 				id='search '
 				options={options}
 				renderInput={params => (
-					<TextField {...params} variant='outlined' placeholder='Search for groups' />
+					<TextField
+						{...params}
+						variant='outlined'
+						placeholder='Search for groups'
+						InputProps={{
+							...params.InputProps,
+							startAdornment: (
+								<>
+									<InputAdornment position='start'>
+										<SearchIcon />
+									</InputAdornment>
+									{params.InputProps.startAdornment}
+								</>
+							),
+						}}
+					/>
 				)}
+				renderOption={option => {
+					return (
+						<>
+							<section className={classes.optionIcon}>
+								<SearchIcon />
+							</section>
+							{option}
+						</>
+					);
+				}}
+				classes={{
+					option: classes.options,
+					listbox: classes.listbox,
+				}}
 			/>
 		</>
 	);
