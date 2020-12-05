@@ -1,13 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import Flickr from 'flickr-sdk';
-import { throttle } from 'lodash';
 
-//importing Material UI components
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import SearchIcon from '@material-ui/icons/Search';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 
+import Searchbar from './Searchbar';
+import GroupCard from './GroupCard';
 import useStyles from './styles';
 
 //Creates a new Flickr REST API client
@@ -16,85 +15,37 @@ const flickr = new Flickr(process.env.REACT_APP_FLICKR_API_KEY);
 
 export default function Groups() {
 	const classes = useStyles();
-	const [value, setValue] = useState(null);
-	const [inputValue, setInputValue] = useState('');
-	const [options, setOptions] = useState([]);
+	const [groups, setGroups] = useState([]);
 
-	//function to prevent making unnecessary calls when the user is typing a query in the search box
-	const throttleFunction = useMemo(
-		() =>
-			throttle(async newInputValue => {
-				const response = await flickr.groups.search({
-					text: newInputValue,
-					per_page: 10,
-				});
-
-				const groupNames = response.body.groups.group.map(item => item.name);
-				setOptions(groupNames);
-			}, 500),
-		[]
-	);
-
-	const handleInputChange = (_, newInputValue) => {
-		setInputValue(newInputValue);
-
-		if (newInputValue) {
-			throttleFunction(newInputValue);
-		} else {
-			setOptions([]);
-		}
+	const search = async searchKey => {
+		const response = await flickr.groups.search({
+			text: searchKey,
+		});
+		console.log(response.body);
+		setGroups(response.body.groups.group);
 	};
 
 	return (
-		<>
-			<div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
-			<div>{`inputValue: '${inputValue}'`}</div>
-			<br />
-			{/* To understand more about Material UI Autocomplete visit https://material-ui.com/components/autocomplete/ */}
-			<Autocomplete
-				freeSolo
-				autoHighlight
-				value={value}
-				onChange={(_, newValue) => {
-					setValue(newValue);
-				}}
-				inputValue={inputValue}
-				onInputChange={handleInputChange}
-				id='search '
-				options={options}
-				renderInput={params => (
-					<TextField
-						{...params}
-						variant='outlined'
-						placeholder='Search for groups'
-						InputProps={{
-							...params.InputProps,
-							startAdornment: (
-								<>
-									<InputAdornment position='start'>
-										<SearchIcon />
-									</InputAdornment>
-									{params.InputProps.startAdornment}
-								</>
-							),
-						}}
-					/>
-				)}
-				renderOption={option => {
-					return (
-						<>
-							<section className={classes.optionIcon}>
-								<SearchIcon />
-							</section>
-							{option}
-						</>
-					);
-				}}
-				classes={{
-					option: classes.options,
-					listbox: classes.listbox,
-				}}
-			/>
-		</>
+		<Container maxWidth='lg'>
+			<header>
+				<Grid container justify='center' alignItems='center'>
+					<Grid item xs={12} md={9}>
+						<Searchbar search={search} />
+					</Grid>
+					<Grid item xs={12} md={3}>
+						<Button>Search</Button>
+					</Grid>
+				</Grid>
+			</header>
+			<main>
+				<Grid container spacing={3}>
+					{groups.map(group => (
+						<Grid item xs={3}>
+							<GroupCard />
+						</Grid>
+					))}
+				</Grid>
+			</main>
+		</Container>
 	);
 }
