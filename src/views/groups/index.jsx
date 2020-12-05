@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Flickr from 'flickr-sdk';
+import { throttle } from 'lodash';
 
 //importing Material UI components
 import TextField from '@material-ui/core/TextField';
@@ -9,22 +10,30 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 //for more details see https://www.npmjs.com/package/flickr-sdk#new-flickrauth
 const flickr = new Flickr(process.env.REACT_APP_FLICKR_API_KEY);
 
-export default function ControllableStates() {
+export default function Groups() {
 	const [value, setValue] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState([]);
 
-	const handleInputChange = async (_, newInputValue) => {
+	const throttleFunction = useMemo(
+		() =>
+			throttle(async newInputValue => {
+				const response = await flickr.groups.search({
+					text: newInputValue,
+					per_page: 10,
+				});
+				const groupNames = response.body.groups.group.map(item => item.name);
+
+				setOptions(groupNames);
+			}, 1000),
+		[]
+	);
+
+	const handleInputChange = (_, newInputValue) => {
 		setInputValue(newInputValue);
 
 		if (newInputValue) {
-			const response = await flickr.groups.search({
-				text: newInputValue,
-				per_page: 10,
-			});
-			const groupNames = response.body.groups.group.map(item => item.name);
-
-			setOptions(groupNames);
+			throttleFunction(newInputValue);
 		} else {
 			setOptions([]);
 		}
