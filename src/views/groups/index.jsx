@@ -27,7 +27,7 @@ export default function Groups() {
 
 	return (
 		<Container maxWidth='lg'>
-			<header>
+			<header className={classes.header}>
 				<Grid container justify='center' alignItems='center'>
 					<Grid item xs={12} md={9}>
 						<Searchbar search={search} />
@@ -40,8 +40,8 @@ export default function Groups() {
 			<main>
 				<Grid container spacing={3}>
 					{groups.map(group => (
-						<Grid item xs={3}>
-							<GroupCard />
+						<Grid item xs={12} sm={6} md={4} lg={3} key={group.nsid}>
+							<GroupCard group={group} />
 						</Grid>
 					))}
 				</Grid>

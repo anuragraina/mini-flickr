@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.5.0",
     "flickr-sdk": "^3.10.0",
     "lodash": "^4.17.20",
+    "number-abbreviate": "^2.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
