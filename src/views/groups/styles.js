@@ -1,8 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
+	container: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	header: {
 		padding: theme.spacing(3, 0),
+		width: '100%',
 	},
 	listbox: {
 		maxHeight: 'none',
@@ -42,6 +49,9 @@ const useStyles = makeStyles(theme => ({
 		fontWeight: 'bold',
 		fontSize: '14px',
 		marginLeft: '2px',
+	},
+	pagination: {
+		margin: theme.spacing(3),
 	},
 }));
 

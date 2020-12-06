@@ -24,8 +24,8 @@ export default function GroupCard({ group }) {
 	console.log(group);
 
 	return (
-		<Link to={`gallery?group-id=${group.nsid}`}>
-			<Card className={classes.groupCard}>
+		<Link to={`/gallery?group-id=${group.nsid}`} style={{ textDecoration: 'none' }}>
+			<Card className={classes.groupCard} elevation={5}>
 				<Avatar alt={group.name} src={url} className={classes.avatar} />
 				<main className={classes.cardDetails}>
 					<Typography className={classes.cardName}>

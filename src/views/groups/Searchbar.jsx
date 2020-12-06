@@ -54,13 +54,14 @@ export default function Searchbar({ search }) {
 				freeSolo
 				blurOnSelect
 				value={value}
+				size='small'
 				onChange={(_, newValue) => {
 					search(newValue);
 					setValue(newValue);
 				}}
 				inputValue={inputValue}
 				onInputChange={handleInputChange}
-				id='search '
+				id='search-groups'
 				options={options}
 				renderInput={params => (
 					<TextField
