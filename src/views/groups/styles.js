@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(1.5),
 		display: 'flex',
 		alignItems: 'center',
-		cursor: 'pointer',
 	},
 	avatar: {
 		height: '48px',
@@ -42,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 		color: '#BDBDBD',
 		fontWeight: 'bold',
 		fontSize: '14px',
-		marginLeft: '3px',
+		marginLeft: '2px',
 	},
 }));
 

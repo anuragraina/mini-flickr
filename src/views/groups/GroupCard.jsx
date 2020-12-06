@@ -1,4 +1,5 @@
 import abbreviate from 'number-abbreviate';
+import { Link } from 'react-router-dom';
 
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
@@ -23,27 +24,33 @@ export default function GroupCard({ group }) {
 	console.log(group);
 
 	return (
-		<Card className={classes.groupCard}>
-			<Avatar alt={group.name} src={url} className={classes.avatar} />
-			<main className={classes.cardDetails}>
-				<Typography className={classes.cardName}>
-					{group.name.length > 20 ? group.name.slice(0, 20).concat('...') : group.name}
-				</Typography>
-				<Grid container>
-					<Grid item className={classes.footerItem}>
-						<GroupIcon color='disabled' fontSize='small' />
-						<Typography className={classes.footerText}>{memberCount}</Typography>
+		<Link to={`gallery?group-id=${group.nsid}`}>
+			<Card className={classes.groupCard}>
+				<Avatar alt={group.name} src={url} className={classes.avatar} />
+				<main className={classes.cardDetails}>
+					<Typography className={classes.cardName}>
+						{group.name.length > 20
+							? group.name.slice(0, 20).concat('...')
+							: group.name}
+					</Typography>
+					<Grid container>
+						<Grid item className={classes.footerItem}>
+							<GroupIcon color='disabled' fontSize='small' />
+							<Typography className={classes.footerText}>{memberCount}</Typography>
+						</Grid>
+						<Grid item className={classes.footerItem}>
+							<PhotoIcon color='disabled' fontSize='small' />
+							<Typography className={classes.footerText}>{photoCount}</Typography>
+						</Grid>
+						<Grid item className={classes.footerItem}>
+							<ForumIcon color='disabled' fontSize='small' />
+							<Typography className={classes.footerText}>
+								{group.topic_count}
+							</Typography>
+						</Grid>
 					</Grid>
-					<Grid item className={classes.footerItem}>
-						<PhotoIcon color='disabled' fontSize='small' />
-						<Typography className={classes.footerText}>{photoCount}</Typography>
-					</Grid>
-					<Grid item className={classes.footerItem}>
-						<ForumIcon color='disabled' fontSize='small' />
-						<Typography className={classes.footerText}>{group.topic_count}</Typography>
-					</Grid>
-				</Grid>
-			</main>
-		</Card>
+				</main>
+			</Card>
+		</Link>
 	);
 }
