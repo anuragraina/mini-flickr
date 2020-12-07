@@ -20,9 +20,7 @@ export default function Gallery({ location }) {
 			if (observer.current) observer.current.disconnect();
 
 			observer.current = new IntersectionObserver(entries => {
-				console.log(hasMore);
 				if (entries[0].isIntersecting && hasMore) {
-					console.log('cdvw');
 					setPageNumber(prevPageNumber => prevPageNumber + 1);
 				}
 			});
@@ -53,6 +51,7 @@ export default function Gallery({ location }) {
 					}
 				})}
 			</Masonry>
+			{error && <div>Some error occurred! Please try again later...</div>}
 		</div>
 	);
 }
