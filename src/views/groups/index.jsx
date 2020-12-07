@@ -67,7 +67,6 @@ export default function Groups({ location }) {
 				data.group &&
 				(data.group.length > 0 ? (
 					<>
-						<PieChart groups={data.group} />
 						<Grid container spacing={3}>
 							{data.group.map(groupItem => (
 								<Grid item xs={12} sm={6} md={4} lg={3} key={groupItem.nsid}>
@@ -76,6 +75,7 @@ export default function Groups({ location }) {
 							))}
 						</Grid>
 						<PaginationComponent data={data} searchKey={searchKey} />
+						<PieChart groups={data.group} />
 					</>
 				) : (
 					<h1>No results to display</h1>

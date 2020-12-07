@@ -19,7 +19,7 @@ export default function GroupCard({ group }) {
 
 	const url =
 		group.iconserver > 0
-			? `http://farm${group.iconfarm}.staticflickr.com/${group.iconserver}/buddyicons/${group.nsid}.jpg`
+			? `https://farm${group.iconfarm}.staticflickr.com/${group.iconserver}/buddyicons/${group.nsid}.jpg`
 			: 'https://www.flickr.com/images/buddyicon.gif';
 
 	return (

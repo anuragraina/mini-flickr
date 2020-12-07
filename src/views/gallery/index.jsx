@@ -1,8 +1,10 @@
 import { useState, useRef, useCallback } from 'react';
 import Masonry from 'react-masonry-css';
 
+//Custom hook to get photos according to required group ID and page number
 import useImageSearch from './useImageSearch';
 
+import ImageCard from './ImageCard';
 import useStyles from './styles';
 
 export default function Gallery({ location }) {
@@ -11,9 +13,19 @@ export default function Gallery({ location }) {
 	const classes = useStyles();
 	const [pageNumber, setPageNumber] = useState(1);
 
+	const breakpointColumnsObj = {
+		default: 6,
+		1100: 3,
+		700: 2,
+		500: 2,
+	};
+
+	//returns the following elements to use accordingly
 	const { loading, error, photos, hasMore } = useImageSearch(groupId, pageNumber);
 
 	const observer = useRef();
+
+	//Increases the page number if the element is visible and if more pages exist
 	const lastPhotoElementRef = useCallback(
 		node => {
 			if (loading) return;
@@ -34,20 +46,16 @@ export default function Gallery({ location }) {
 		<div>
 			<h1>Gallery</h1>
 			<Masonry
-				breakpointCols={5}
+				breakpointCols={breakpointColumnsObj}
 				className={classes.masonryGrid}
 				columnClassName={classes.masonryGridColumn}
 			>
 				{/* array of JSX items */}
 				{photos.map((photo, index) => {
-					const url = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_m.jpg`;
-
 					if (photos.length === index + 1) {
-						return (
-							<img src={url} alt='group' ref={lastPhotoElementRef} key={photo.id} />
-						);
+						return <ImageCard ref={lastPhotoElementRef} key={photo.id} photo={photo} />;
 					} else {
-						return <img src={url} alt='group' key={photo.id} />;
+						return <ImageCard key={photo.id} photo={photo} />;
 					}
 				})}
 			</Masonry>
