@@ -7,13 +7,12 @@ import useStyles from './styles';
 const flickr = new Flickr(process.env.REACT_APP_FLICKR_API_KEY);
 
 export default function Gallery({ location }) {
+	const params = new URLSearchParams(location.search);
+	const groupId = params.get('group-id');
 	const classes = useStyles();
 	const [photos, setPhotos] = useState([]);
 
 	useEffect(() => {
-		const params = new URLSearchParams(location.search);
-		const groupId = params.get('group-id');
-
 		flickr.groups.pools
 			.getPhotos({
 				group_id: groupId,
@@ -26,7 +25,7 @@ export default function Gallery({ location }) {
 			.catch(err => {
 				console.log(err);
 			});
-	}, [location.search]);
+	}, [groupId]);
 
 	return (
 		<div>

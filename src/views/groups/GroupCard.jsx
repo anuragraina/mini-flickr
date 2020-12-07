@@ -21,7 +21,6 @@ export default function GroupCard({ group }) {
 		group.iconserver > 0
 			? `http://farm${group.iconfarm}.staticflickr.com/${group.iconserver}/buddyicons/${group.nsid}.jpg`
 			: 'https://www.flickr.com/images/buddyicon.gif';
-	console.log(group);
 
 	return (
 		<Link to={`/gallery?group-id=${group.nsid}`} style={{ textDecoration: 'none' }}>

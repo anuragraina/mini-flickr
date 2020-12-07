@@ -15,10 +15,11 @@ import useStyles from './styles';
 //for more details see https://www.npmjs.com/package/flickr-sdk#new-flickrauth
 const flickr = new Flickr(process.env.REACT_APP_FLICKR_API_KEY);
 
-export default function Searchbar() {
+export default function Searchbar({ location }) {
+	const params = new URLSearchParams(location.search);
 	const classes = useStyles();
 	const history = useHistory();
-	const [value, setValue] = useState(null);
+	const [value, setValue] = useState(params.get('searchKey'));
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState([]);
 
@@ -39,13 +40,14 @@ export default function Searchbar() {
 
 	const handleInputChange = (_, newInputValue) => {
 		setInputValue(newInputValue);
-
-		if (newInputValue) {
-			throttleFunction(newInputValue);
-		} else {
-			setOptions([]);
-		}
+		newInputValue ? throttleFunction(newInputValue) : setOptions([]);
 	};
+
+	const handleValueChange = (_, newValue) => {
+		newValue !== null && history.push(`/groups?searchKey=${newValue}`);
+		setValue(newValue);
+	};
+
 	return (
 		<>
 			{/* <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
@@ -57,10 +59,7 @@ export default function Searchbar() {
 				blurOnSelect
 				value={value}
 				size='small'
-				onChange={(_, newValue) => {
-					history.push(`/groups?searchKey=${newValue}`);
-					setValue(newValue);
-				}}
+				onChange={handleValueChange}
 				inputValue={inputValue}
 				onInputChange={handleInputChange}
 				id='search-groups'
