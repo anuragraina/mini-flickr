@@ -23,7 +23,10 @@ export default function GroupCard({ group }) {
 			: 'https://www.flickr.com/images/buddyicon.gif';
 
 	return (
-		<Link to={`/gallery?group-id=${group.nsid}`} style={{ textDecoration: 'none' }}>
+		<Link
+			to={`/gallery?group-id=${group.nsid}&group-name=${group.name}`}
+			style={{ textDecoration: 'none' }}
+		>
 			<Card className={classes.groupCard} elevation={5}>
 				<Avatar alt={group.name} src={url} className={classes.avatar} />
 				<main className={classes.cardDetails}>

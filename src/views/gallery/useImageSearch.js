@@ -18,6 +18,7 @@ export default function useImageSearch(groupId, pageNumber) {
 				group_id: groupId,
 				per_page: 20,
 				page: pageNumber,
+				extras: ['description'],
 			})
 			.then(response => {
 				setPhotos(prevPhotos => [...prevPhotos, ...response.body.photos.photo]);

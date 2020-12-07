@@ -15,7 +15,20 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 	},
 	imageCard: {
-		margin: theme.spacing(2, 1),
+		margin: theme.spacing(3, 1.5),
+		cursor: 'default',
+	},
+	root: {
+		listStyleType: 'none',
+	},
+	loading: {
+		display: 'flex',
+		justifyContent: 'center',
+		margin: theme.spacing(5),
+	},
+	description: {
+		margin: theme.spacing(1),
+		fontWeight: 'bold',
 	},
 }));
 

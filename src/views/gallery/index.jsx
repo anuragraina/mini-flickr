@@ -1,6 +1,10 @@
 import { useState, useRef, useCallback } from 'react';
 import Masonry from 'react-masonry-css';
 
+import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+
 //Custom hook to get photos according to required group ID and page number
 import useImageSearch from './useImageSearch';
 
@@ -10,11 +14,12 @@ import useStyles from './styles';
 export default function Gallery({ location }) {
 	const params = new URLSearchParams(location.search);
 	const groupId = params.get('group-id');
+	const groupName = params.get('group-name');
 	const classes = useStyles();
 	const [pageNumber, setPageNumber] = useState(1);
 
 	const breakpointColumnsObj = {
-		default: 6,
+		default: 4,
 		1100: 3,
 		700: 2,
 		500: 2,
@@ -43,8 +48,10 @@ export default function Gallery({ location }) {
 	);
 
 	return (
-		<div>
-			<h1>Gallery</h1>
+		<Container maxWidth='lg'>
+			<Typography variant='h2' align='center'>
+				{`Photos from ${groupName}`}
+			</Typography>
 			<Masonry
 				breakpointCols={breakpointColumnsObj}
 				className={classes.masonryGrid}
@@ -59,7 +66,13 @@ export default function Gallery({ location }) {
 					}
 				})}
 			</Masonry>
+			{loading && (
+				<section className={classes.loading}>
+					<CircularProgress color='secondary' />
+				</section>
+			)}
+
 			{error && <div>Some error occurred! Please try again later...</div>}
-		</div>
+		</Container>
 	);
 }
