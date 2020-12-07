@@ -11,6 +11,7 @@ import PaginationItem from '@material-ui/lab/PaginationItem';
 import Searchbar from './Searchbar';
 import GroupCard from './GroupCard';
 import useStyles from './styles';
+import PieChart from './PieChart';
 
 //Creates a new Flickr REST API client
 //for more details see https://www.npmjs.com/package/flickr-sdk#new-flickrauth
@@ -28,7 +29,7 @@ export default function Groups({ location }) {
 			flickr.groups
 				.search({
 					text: searchKey,
-					per_page: 20,
+					per_page: 12,
 					page,
 				})
 				.then(response => {
@@ -39,8 +40,6 @@ export default function Groups({ location }) {
 					console.log(err);
 				});
 	}, [searchKey, page]);
-
-	console.log(data);
 
 	return (
 		<Container maxWidth='lg' className={classes.container}>
@@ -57,6 +56,7 @@ export default function Groups({ location }) {
 			{data.group &&
 				(data.group.length > 0 ? (
 					<>
+						<PieChart groups={data.group} />
 						<Grid container spacing={3}>
 							{data.group.map(groupItem => (
 								<Grid item xs={12} sm={6} md={4} lg={3} key={groupItem.nsid}>
@@ -67,6 +67,7 @@ export default function Groups({ location }) {
 						<Pagination
 							count={data.pages}
 							color='secondary'
+							size='small'
 							page={data.page}
 							className={classes.pagination}
 							renderItem={item => (
