@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Flickr from 'flickr-sdk';
 
 import Button from '@material-ui/core/Button';
@@ -14,25 +14,35 @@ import useStyles from './styles';
 //for more details see https://www.npmjs.com/package/flickr-sdk#new-flickrauth
 const flickr = new Flickr(process.env.REACT_APP_FLICKR_API_KEY);
 
-export default function Groups() {
+export default function Groups({ location }) {
 	const classes = useStyles();
 	const [groups, setGroups] = useState([]);
 
-	const search = async searchKey => {
-		const response = await flickr.groups.search({
-			text: searchKey,
-			per_page: 20,
-		});
-		console.log(response.body);
-		setGroups(response.body.groups.group);
-	};
+	useEffect(() => {
+		const params = new URLSearchParams(location.search);
+		const searchKey = params.get('searchKey');
+
+		searchKey &&
+			flickr.groups
+				.search({
+					text: searchKey,
+					per_page: 20,
+				})
+				.then(response => {
+					console.log(response.body);
+					setGroups(response.body.groups.group);
+				})
+				.catch(err => {
+					console.log(err);
+				});
+	}, [location.search]);
 
 	return (
 		<Container maxWidth='lg' className={classes.container}>
 			<header className={classes.header}>
 				<Grid container justify='center' alignItems='center'>
 					<Grid item xs={12} md={9}>
-						<Searchbar search={search} />
+						<Searchbar />
 					</Grid>
 					<Grid item xs={12} md={3}>
 						<Button>Search</Button>

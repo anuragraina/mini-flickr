@@ -38,7 +38,7 @@ export default function Gallery({ location }) {
 			>
 				{/* array of JSX items */}
 				{photos.map(photo => {
-					const url = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_n.jpg`;
+					const url = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_m.jpg`;
 					return <img src={url} alt='group' key={photo.id} />;
 				})}
 			</Masonry>

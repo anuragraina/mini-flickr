@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import Flickr from 'flickr-sdk';
 import { throttle } from 'lodash';
+import { useHistory } from 'react-router-dom';
 
 //importing Material UI components
 import TextField from '@material-ui/core/TextField';
@@ -14,8 +15,9 @@ import useStyles from './styles';
 //for more details see https://www.npmjs.com/package/flickr-sdk#new-flickrauth
 const flickr = new Flickr(process.env.REACT_APP_FLICKR_API_KEY);
 
-export default function Searchbar({ search }) {
+export default function Searchbar() {
 	const classes = useStyles();
+	const history = useHistory();
 	const [value, setValue] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState([]);
@@ -56,7 +58,7 @@ export default function Searchbar({ search }) {
 				value={value}
 				size='small'
 				onChange={(_, newValue) => {
-					search(newValue);
+					history.push(`/groups?searchKey=${newValue}`);
 					setValue(newValue);
 				}}
 				inputValue={inputValue}
