@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import Flickr from 'flickr-sdk';
-import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import Pagination from '@material-ui/lab/Pagination';
-import PaginationItem from '@material-ui/lab/PaginationItem';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Searchbar from './Searchbar';
 import GroupCard from './GroupCard';
-import useStyles from './styles';
+import PaginationComponent from './PaginationComponent';
 import PieChart from './PieChart';
+
+import useStyles from './styles';
 
 //Creates a new Flickr REST API client
 //for more details see https://www.npmjs.com/package/flickr-sdk#new-flickrauth
@@ -23,9 +23,11 @@ export default function Groups({ location }) {
 	const page = params.get('page');
 	const classes = useStyles();
 	const [data, setData] = useState({});
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		searchKey &&
+		if (searchKey) {
+			setLoading(true);
 			flickr.groups
 				.search({
 					text: searchKey,
@@ -33,12 +35,16 @@ export default function Groups({ location }) {
 					page,
 				})
 				.then(response => {
-					//console.log(response.body.groups);
+					setLoading(false);
 					setData(response.body.groups);
 				})
 				.catch(err => {
+					setLoading(false);
 					console.log(err);
 				});
+		} else {
+			setLoading(false);
+		}
 	}, [searchKey, page]);
 
 	return (
@@ -53,7 +59,12 @@ export default function Groups({ location }) {
 					</Grid>
 				</Grid>
 			</header>
-			{data.group &&
+			{loading ? (
+				<section className={classes.progressBar}>
+					<LinearProgress color='secondary' />
+				</section>
+			) : (
+				data.group &&
 				(data.group.length > 0 ? (
 					<>
 						<PieChart groups={data.group} />
@@ -64,26 +75,12 @@ export default function Groups({ location }) {
 								</Grid>
 							))}
 						</Grid>
-						<Pagination
-							count={data.pages}
-							color='secondary'
-							size='small'
-							page={data.page}
-							className={classes.pagination}
-							renderItem={item => (
-								<PaginationItem
-									component={Link}
-									to={`/groups?searchKey=${searchKey}${
-										item.page === 1 ? '' : `&page=${item.page}`
-									}`}
-									{...item}
-								/>
-							)}
-						/>
+						<PaginationComponent data={data} searchKey={searchKey} />
 					</>
 				) : (
 					<h1>No results to display</h1>
-				))}
+				))
+			)}
 		</Container>
 	);
 }

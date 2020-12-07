@@ -6,6 +6,7 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
+		height: '100%',
 	},
 	header: {
 		padding: theme.spacing(3, 0),
@@ -52,6 +53,12 @@ const useStyles = makeStyles(theme => ({
 	},
 	pagination: {
 		margin: theme.spacing(3),
+	},
+	chart: {
+		margin: theme.spacing(3),
+	},
+	progressBar: {
+		width: '50%',
 	},
 }));
 
