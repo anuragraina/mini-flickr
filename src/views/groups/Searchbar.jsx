@@ -15,7 +15,7 @@ import useStyles from './styles';
 //for more details see https://www.npmjs.com/package/flickr-sdk#new-flickrauth
 const flickr = new Flickr(process.env.REACT_APP_FLICKR_API_KEY);
 
-export default function Searchbar({ location }) {
+export default function Searchbar({ location, setSearchText }) {
 	const params = new URLSearchParams(location.search);
 	const classes = useStyles();
 	const history = useHistory();
@@ -40,6 +40,7 @@ export default function Searchbar({ location }) {
 
 	const handleInputChange = (_, newInputValue) => {
 		setInputValue(newInputValue);
+		setSearchText(newInputValue);
 		newInputValue ? throttleFunction(newInputValue) : setOptions([]);
 	};
 

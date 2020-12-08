@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import Flickr from 'flickr-sdk';
+import { useHistory } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
 
 import Searchbar from './Searchbar';
 import GroupCard from './GroupCard';
@@ -22,8 +24,14 @@ export default function Groups({ location }) {
 	const searchKey = params.get('searchKey');
 	const page = params.get('page');
 	const classes = useStyles();
+	const history = useHistory();
 	const [data, setData] = useState({});
 	const [loading, setLoading] = useState(false);
+	const [searchText, setSearchText] = useState('');
+
+	const search = () => {
+		searchText !== '' && history.push(`/groups?searchKey=${searchText}`);
+	};
 
 	useEffect(() => {
 		if (searchKey) {
@@ -50,12 +58,17 @@ export default function Groups({ location }) {
 	return (
 		<Container maxWidth='lg' className={classes.container}>
 			<header className={classes.header}>
-				<Grid container justify='space-around' alignItems='center'>
+				<Grid container justify='center' alignItems='center'>
 					<Grid item xs={12} md={7} className={classes.headerItem}>
-						<Searchbar location={location} />
+						<Searchbar location={location} setSearchText={setSearchText} />
 					</Grid>
 					<Grid item xs={12} md={3} className={classes.headerItem}>
-						<Button variant='contained' color='secondary' className={classes.button}>
+						<Button
+							variant='contained'
+							color='secondary'
+							className={classes.button}
+							onClick={search}
+						>
 							Search
 						</Button>
 					</Grid>
@@ -69,6 +82,9 @@ export default function Groups({ location }) {
 				data.group &&
 				(data.group.length > 0 ? (
 					<>
+						<Typography
+							className={classes.results}
+						>{`Displaying ${data.perpage} of ${data.total} results`}</Typography>
 						<Grid container spacing={3}>
 							{data.group.map(groupItem => (
 								<Grid item xs={12} sm={6} md={4} lg={3} key={groupItem.nsid}>
@@ -77,10 +93,13 @@ export default function Groups({ location }) {
 							))}
 						</Grid>
 						<PaginationComponent data={data} searchKey={searchKey} />
+						<Typography variant='h3' align='center' className={classes.photoComparison}>
+							Photos Comparison
+						</Typography>
 						<PieChart groups={data.group} />
 					</>
 				) : (
-					<h1>No results to display</h1>
+					<Typography variant='h4'>No results to display</Typography>
 				))
 			)}
 		</Container>

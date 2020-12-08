@@ -71,6 +71,13 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 		maxWidth: '600px',
 	},
+	results: {
+		margin: theme.spacing(3),
+		fontWeight: 'bold',
+	},
+	photoComparison: {
+		marginTop: theme.spacing(3),
+	},
 }));
 
 export default useStyles;

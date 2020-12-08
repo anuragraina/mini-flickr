@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
 	},
+	fakeToolbar: {
+		...theme.mixins.toolbar,
+	},
 }));
 
 function App() {
@@ -19,13 +22,14 @@ function App() {
 
 	return (
 		<>
-			<AppBar position='static'>
+			<AppBar position='fixed'>
 				<Toolbar>
 					<Typography variant='h6' className={classes.title}>
 						Mini Flickr
 					</Typography>
 				</Toolbar>
 			</AppBar>
+			<div className={classes.fakeToolbar} />
 			<Router>
 				<Switch>
 					<Route path='/groups' component={Groups} />

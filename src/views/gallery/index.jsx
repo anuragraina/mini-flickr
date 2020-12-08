@@ -48,7 +48,7 @@ export default function Gallery({ location }) {
 	);
 
 	return (
-		<Container maxWidth='lg'>
+		<Container maxWidth='lg' className={classes.container}>
 			<Typography variant='h3' align='center'>
 				{`Photos from ${groupName}`}
 			</Typography>

@@ -30,6 +30,9 @@ const useStyles = makeStyles(theme => ({
 		margin: theme.spacing(1),
 		fontWeight: 'bold',
 	},
+	container: {
+		paddingTop: theme.spacing(2),
+	},
 }));
 
 export default useStyles;
