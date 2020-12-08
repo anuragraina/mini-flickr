@@ -50,12 +50,14 @@ export default function Groups({ location }) {
 	return (
 		<Container maxWidth='lg' className={classes.container}>
 			<header className={classes.header}>
-				<Grid container justify='center' alignItems='center'>
-					<Grid item xs={12} md={9}>
+				<Grid container justify='space-around' alignItems='center'>
+					<Grid item xs={12} md={7} className={classes.headerItem}>
 						<Searchbar location={location} />
 					</Grid>
-					<Grid item xs={12} md={3}>
-						<Button>Search</Button>
+					<Grid item xs={12} md={3} className={classes.headerItem}>
+						<Button variant='contained' color='secondary' className={classes.button}>
+							Search
+						</Button>
 					</Grid>
 				</Grid>
 			</header>

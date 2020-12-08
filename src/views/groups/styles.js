@@ -60,6 +60,17 @@ const useStyles = makeStyles(theme => ({
 	progressBar: {
 		width: '50%',
 	},
+	headerItem: {
+		display: 'flex',
+		justifyContent: 'center',
+	},
+	button: {
+		margin: theme.spacing(2),
+	},
+	searchBar: {
+		width: '100%',
+		maxWidth: '600px',
+	},
 }));
 
 export default useStyles;

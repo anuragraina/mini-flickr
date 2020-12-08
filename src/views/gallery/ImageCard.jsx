@@ -14,8 +14,11 @@ function ImageCard({ photo }, ref) {
 	const [isMouseOver, setIsMouseOver] = useState(false);
 
 	const title = photo.title === '' ? 'No Title' : photo.title;
+
 	const description =
-		photo.description._content.length > 50
+		photo.description._content === ''
+			? 'No Description'
+			: photo.description._content.length > 50
 			? photo.description._content.slice(0, 50) + '.....'
 			: photo.description._content;
 

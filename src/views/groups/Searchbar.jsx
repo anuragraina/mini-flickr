@@ -50,9 +50,6 @@ export default function Searchbar({ location }) {
 
 	return (
 		<>
-			{/* <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
-			<div>{`inputValue: '${inputValue}'`}</div>
-			<br /> */}
 			{/* To understand more about Material UI Autocomplete visit https://material-ui.com/components/autocomplete/ */}
 			<Autocomplete
 				freeSolo
@@ -96,6 +93,7 @@ export default function Searchbar({ location }) {
 					option: classes.options,
 					listbox: classes.listbox,
 				}}
+				className={classes.searchBar}
 			/>
 		</>
 	);

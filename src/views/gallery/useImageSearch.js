@@ -28,6 +28,7 @@ export default function useImageSearch(groupId, pageNumber) {
 			.catch(err => {
 				console.log(err);
 				setError(true);
+				setLoading(false);
 			});
 	}, [groupId, pageNumber]);
 

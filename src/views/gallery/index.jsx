@@ -49,7 +49,7 @@ export default function Gallery({ location }) {
 
 	return (
 		<Container maxWidth='lg'>
-			<Typography variant='h2' align='center'>
+			<Typography variant='h3' align='center'>
 				{`Photos from ${groupName}`}
 			</Typography>
 			<Masonry
