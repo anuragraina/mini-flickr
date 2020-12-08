@@ -74,6 +74,11 @@ export default function Groups({ location }) {
 					</Grid>
 				</Grid>
 			</header>
+			{searchKey === null && (
+				<Typography variant='h3' className={classes.noSearchText}>
+					Start typing to look for groups...
+				</Typography>
+			)}
 			{loading ? (
 				<section className={classes.progressBar}>
 					<LinearProgress color='secondary' />
@@ -84,7 +89,7 @@ export default function Groups({ location }) {
 					<>
 						<Typography
 							className={classes.results}
-						>{`Displaying ${data.perpage} of ${data.total} results`}</Typography>
+						>{`Displaying ${data.group.length} of ${data.total} results`}</Typography>
 						<Grid container spacing={3}>
 							{data.group.map(groupItem => (
 								<Grid item xs={12} sm={6} md={4} lg={3} key={groupItem.nsid}>

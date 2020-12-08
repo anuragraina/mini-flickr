@@ -15,13 +15,16 @@ const useStyles = makeStyles(theme => ({
 	fakeToolbar: {
 		...theme.mixins.toolbar,
 	},
+	main: {
+		minHeight: '100vh',
+	},
 }));
 
 function App() {
 	const classes = useStyles();
 
 	return (
-		<>
+		<main className={classes.main}>
 			<AppBar position='fixed'>
 				<Toolbar>
 					<Typography variant='h6' className={classes.title}>
@@ -39,7 +42,7 @@ function App() {
 					</Route>
 				</Switch>
 			</Router>
-		</>
+		</main>
 	);
 }
 

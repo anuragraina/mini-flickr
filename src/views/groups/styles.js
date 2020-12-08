@@ -78,6 +78,9 @@ const useStyles = makeStyles(theme => ({
 	photoComparison: {
 		marginTop: theme.spacing(3),
 	},
+	noSearchText: {
+		marginTop: theme.spacing(20),
+	},
 }));
 
 export default useStyles;
